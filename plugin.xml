@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android"
+           id="cordova-plugin-baidu-push"
+      version="0.0.1">
+    <name>BaiduPush</name>
+    <author>Jin Longtao</author>
+    <description>Cordova push plugin with baidu push sdk.</description>
+    <license>MIT</license>
+    <keywords>cordova,baidu,push</keywords>
+    <repo>https://github.com/ltjin/cordova-plugin-baidu-push.git</repo>
+    <issue>https://github.com/ltjin/cordova-plugin-baidu-push/issues</issue>
+    <engines>
+        <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <js-module src="www/BaiduPush.js" name="BaiduPush">
+        <clobbers target="window.plugins.baiduPush" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="BaiduPush" >
+                <param name="android-package" value="cn.com.kland.plugins.baidupush.BaiduPush"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+            <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+            <uses-permission android:name="android.permission.VIBRATE" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <receiver android:name="cn.com.kland.plugins.baidupush.BaiduPushMessageReceiver">
+                <intent-filter>
+                    <action android:name="com.baidu.android.pushservice.action.MESSAGE"/>
+                    <action android:name="com.baidu.android.pushservice.action.RECEIVE"/>
+                    <action android:name="com.baidu.android.pushservice.action.notification.CLICK"/>
+                </intent-filter>
+            </receiver>
+
+            <receiver android:name="com.baidu.android.pushservice.PushServiceReceiver" android:process=":bdservice_v1">
+                <intent-filter>
+                    <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                    <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                    <action android:name="com.baidu.android.pushservice.action.notification.SHOW"/>
+                    <action android:name="com.baidu.android.pushservice.action.media.CLICK"/>
+                    <action android:name="android.intent.action.MEDIA_MOUNTED"/>
+                    <action android:name="android.intent.action.USER_PRESENT"/>
+                    <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
+                    <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                </intent-filter>
+            </receiver>
+            <receiver android:name="com.baidu.android.pushservice.RegistrationReceiver" android:process=":bdservice_v1">
+                <intent-filter>
+                    <action android:name="com.baidu.android.pushservice.action.METHOD"/>
+                    <action android:name="com.baidu.android.pushservice.action.BIND_SYNC"/>
+                </intent-filter>
+                <intent-filter>
+                    <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                    <data android:scheme="package"/>
+                </intent-filter>
+            </receiver>
+
+            <service android:name="com.baidu.android.pushservice.PushService" android:exported="true" android:process=":bdservice_v1">
+                <intent-filter>
+                    <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE"/>
+                </intent-filter>
+            </service>
+
+            <service android:name="com.baidu.android.pushservice.CommandService" android:exported="true">
+            </service>
+        </config-file>
+
+        <source-file src="src/android/BaiduPush.java" target-dir="src/cn/com/kland/plugins/baidupush" />
+        <source-file src="src/android/BaiduPushMessageReceiver.java" target-dir="src/cn/com/kland/plugins/baidupush" />
+
+        <resource-file src="src/android/libs/pushservice-4.5.6.88.jar" target="libs/pushservice-4.5.6.88.jar"/>
+        <resource-file src="src/android/libs/arm64-v8a/libbdpush_V2_4.so" target="libs/arm64-v8a/libbdpush_V2_4.so"/>
+        <resource-file src="src/android/libs/armeabi/libbdpush_V2_4.so" target="libs/armeabi/libbdpush_V2_4.so"/>
+        <resource-file src="src/android/libs/armeabi-v7a/libbdpush_V2_4.so" target="libs/armeabi-v7a/libbdpush_V2_4.so"/>
+        <resource-file src="src/android/libs/mips/libbdpush_V2_4.so" target="libs/mips/libbdpush_V2_4.so"/>
+        <resource-file src="src/android/libs/x86/libbdpush_V2_4.so" target="libs/x86/libbdpush_V2_4.so"/>
+
+    </platform>
+
+     <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="BaiduPush">
+                <param name="ios-package" value="BaiduPush"/>
+            </feature>
+        </config-file>
+
+
+        <header-file src="src/ios/LibBPush/BPush.h" />
+        <source-file src="src/ios/LibBPush/libBPush.a" framework="true"/>
+
+        <header-file src="src/ios/BaiduPush.h"/>
+        <source-file src="src/ios/BaiduPush.m"/>
+        <header-file src="src/ios/AppDelegate+Notification.h"/>
+        <source-file src="src/ios/AppDelegate+Notification.m"/>
+
+        <framework src="Foundation.framework"/>
+        <framework src="CoreTelephony.framework"/>
+        <framework src="libz.dylib"/>
+        <framework src="SystemConfiguration.framework"/>
+    </platform>
+
+</plugin>
