@@ -77,18 +77,20 @@
 
             <service android:name="com.baidu.android.pushservice.CommandService" android:exported="true">
             </service>
+            <activity android:name="com.baidu.android.pushservice.PushKeepAlive" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         </config-file>
 
         <source-file src="src/android/BaiduPush.java" target-dir="src/cn/com/kland/plugins/baidupush" />
         <source-file src="src/android/BaiduPushMessageReceiver.java" target-dir="src/cn/com/kland/plugins/baidupush" />
 
-        <resource-file src="src/android/libs/pushservice-4.5.6.88.jar" target="libs/pushservice-4.5.6.88.jar"/>
-        <resource-file src="src/android/libs/arm64-v8a/libbdpush_V2_4.so" target="libs/arm64-v8a/libbdpush_V2_4.so"/>
-        <resource-file src="src/android/libs/armeabi/libbdpush_V2_4.so" target="libs/armeabi/libbdpush_V2_4.so"/>
-        <resource-file src="src/android/libs/armeabi-v7a/libbdpush_V2_4.so" target="libs/armeabi-v7a/libbdpush_V2_4.so"/>
-        <resource-file src="src/android/libs/mips/libbdpush_V2_4.so" target="libs/mips/libbdpush_V2_4.so"/>
-        <resource-file src="src/android/libs/x86/libbdpush_V2_4.so" target="libs/x86/libbdpush_V2_4.so"/>
-
+        <resource-file src="src/android/libs/pushservice-4.6.0.53.jar" target="libs/pushservice-4.6.0.53.jar"/>
+        <resource-file src="src/android/libs/arm64-v8a/libbdpush_V2_5.so" target="libs/arm64-v8a/libbdpush_V2_5.so"/>
+        <resource-file src="src/android/libs/armeabi/libbdpush_V2_5.so" target="libs/armeabi/libbdpush_V2_5.so"/>
+        <resource-file src="src/android/libs/armeabi-v7a/libbdpush_V2_5.so" target="libs/armeabi-v7a/libbdpush_V2_5.so"/>
+        <resource-file src="src/android/libs/mips/libbdpush_V2_5.so" target="libs/mips/libbdpush_V2_5.so"/>
+        <resource-file src="src/android/libs/mips64/libbdpush_V2_5.so" target="libs/mips64/libbdpush_V2_5.so"/>
+        <resource-file src="src/android/libs/x86/libbdpush_V2_5.so" target="libs/x86/libbdpush_V2_5.so"/>
+        <resource-file src="src/android/libs/x86/libbdpush_V2_5.so" target="libs/x86_64/libbdpush_V2_5.so"/>
     </platform>
 
      <!-- ios -->
